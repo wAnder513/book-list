@@ -1,5 +1,13 @@
 <script setup>
-import { useBooksStore } from "../store/books";
+import { useBooksStore } from "../../store/books";
+import logo from "../../assets/img/book-logo.svg";
+import search from "../../assets/img/search.svg";
+
+const emit = defineEmits(["openModal"]);
+
+function openModal() {
+  emit("openModal");
+}
 
 const { booksCount } = useBooksStore();
 </script>
@@ -10,19 +18,11 @@ const { booksCount } = useBooksStore();
       <div class="header_wrapper">
         <div class="header_container">
           <div class="header_logo">
-            <img
-              class="header_logo-img"
-              src="../assets/img/book-logo.svg"
-              alt="logo"
-            />
+            <img class="header_logo-img" :src="logo" alt="logo" />
           </div>
 
           <div class="header_search-wrapper">
-            <img
-              src="../assets/img/search.svg"
-              alt="search"
-              class="header_search-input-icon"
-            />
+            <img :src="search" alt="search" class="header_search-input-icon" />
             <input
               class="header_search-input"
               type="text"
@@ -37,7 +37,7 @@ const { booksCount } = useBooksStore();
             <span class="header_books-counter-number">{{ booksCount }}</span>
           </div>
 
-          <button class="header_books-add-book">
+          <button @click="openModal" class="header_books-add-book">
             <span class="header_books-img"></span>
             Добавить книгу
           </button>
@@ -48,11 +48,12 @@ const { booksCount } = useBooksStore();
 </template>
 
 <style scoped lang="scss">
-@use "../assets/scss/var.scss" as *;
+@use "../../assets/scss/var.scss" as *;
 
 .header {
   background-color: $light-color;
   padding: 16px 0;
+  margin-bottom: 16px;
 
   .header_wrapper {
     display: flex;
@@ -130,7 +131,7 @@ const { booksCount } = useBooksStore();
       .header_books-img {
         width: 20px;
         height: 20px;
-        background-image: url("../assets/img/add-button-default.svg");
+        background-image: url("../../assets/img/add-button-default.svg");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -139,7 +140,7 @@ const { booksCount } = useBooksStore();
       &:hover,
       &:focus {
         .header_books-img {
-          background-image: url("../assets/img/add-button-active.svg");
+          background-image: url("../../assets/img/add-button-active.svg");
         }
       }
     }
