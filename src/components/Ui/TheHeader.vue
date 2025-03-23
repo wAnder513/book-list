@@ -2,14 +2,39 @@
 import { useBooksStore } from "../../store/books";
 import logo from "../../assets/img/book-logo.svg";
 import search from "../../assets/img/search.svg";
+import { CATALOG_AND_SEARCH_TEXTS } from "../../constants";
+import { ref, watch } from "vue";
+
+const store = useBooksStore();
 
 const emit = defineEmits(["openModal"]);
+
+const navigationBookList = ref({
+  text: CATALOG_AND_SEARCH_TEXTS.CATALOG,
+  variable: store.booksCount,
+});
+
+watch(
+  [() => store.searchBook, () => store.books],
+  ([newSearchBook]) => {
+    if (newSearchBook === "") {
+      navigationBookList.value.text = CATALOG_AND_SEARCH_TEXTS.CATALOG;
+      navigationBookList.value.variable = `${store.booksCount}`;
+    } else {
+      navigationBookList.value.text = CATALOG_AND_SEARCH_TEXTS.SEARCH;
+      navigationBookList.value.variable = `«${newSearchBook}»`;
+    }
+  },
+  { deep: true, immediate: true }
+);
 
 function openModal() {
   emit("openModal");
 }
 
-const { booksCount } = useBooksStore();
+function setSearchBook(event) {
+  store.setSearch(event.target.value);
+}
 </script>
 
 <template>
@@ -27,14 +52,20 @@ const { booksCount } = useBooksStore();
               class="header_search-input"
               type="text"
               placeholder="Найти ту самую книгу"
+              :value="store.searchBook"
+              @input="setSearchBook"
             />
           </div>
         </div>
 
         <div class="header_books">
           <div class="header_books-counter">
-            <span class="header_books-counter-text">Книги в каталоге</span>
-            <span class="header_books-counter-number">{{ booksCount }}</span>
+            <span class="header_books-counter-text">{{
+              navigationBookList.text
+            }}</span>
+            <span class="header_books-counter-number">{{
+              navigationBookList.variable
+            }}</span>
           </div>
 
           <button @click="openModal" class="header_books-add-book">

@@ -13,12 +13,14 @@ const form = ref({
     placeholder: "Название произведения",
     modelValue: "",
     error: "",
+    required: true,
   },
   author: {
     label: "Автор",
     placeholder: "Имя и фамилия автора",
     modelValue: "",
     error: "",
+    required: true,
   },
   year: {
     label: "Год",
@@ -26,12 +28,14 @@ const form = ref({
     modelValue: "",
     error: "",
     type: "number",
+    required: true,
   },
   genre: {
     label: "Жанр",
     placeholder: "Жанр произведения",
     modelValue: "",
     error: "",
+    required: false,
   },
 });
 
@@ -46,7 +50,7 @@ function validateForm() {
   for (const key in form.value) {
     const field = form.value[key];
 
-    if (field.modelValue.trim() === "") {
+    if (field.modelValue.trim() === "" && field.required) {
       field.error = "Обязательное поле";
       isValid = false;
     } else if (
@@ -98,6 +102,7 @@ function submitForm() {
       :placeholder="field.placeholder"
       v-model="field.modelValue"
       :error="field.error"
+      :type="field?.type ?? 'string'"
     ></TheInput>
 
     <TheCheckbox v-model="readConditions.isChecked">

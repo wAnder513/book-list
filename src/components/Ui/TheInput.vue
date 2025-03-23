@@ -1,28 +1,6 @@
-<template>
-  <div class="input_wrapper">
-    <label v-if="label" class="input_label">{{ label }}</label>
-    <textarea
-      v-if="type !== 'number'"
-      :value="modelValue"
-      @input="handleInput"
-      class="input_field"
-      :placeholder="placeholder"
-      :rows="rows"
-      :cols="cols"
-    ></textarea>
-    <input
-      v-else
-      type="text"
-      :value="modelValue"
-      @input="handleInput"
-      class="input_field"
-      :placeholder="placeholder"
-    />
-    <span v-if="error" class="error_message">{{ error }}</span>
-  </div>
-</template>
-
 <script setup>
+import { ref, watch } from "vue";
+
 const props = defineProps({
   modelValue: {
     type: [String, Number],
@@ -56,19 +34,61 @@ const props = defineProps({
 
 const emit = defineEmits(["update:modelValue"]);
 
-const handleInput = (event) => {
+const textareaRef = ref(null);
+
+function handleInput(event) {
   let value = event.target.value;
 
-  // Если тип поля — число, проверяем, что введено число
   if (props.type === "number") {
     if (!/^\d*$/.test(value)) {
-      return; // Игнорируем ввод, если это не число
+      return;
     }
   }
 
   emit("update:modelValue", value);
-};
+  autoResizeTextarea();
+}
+
+function autoResizeTextarea() {
+  if (textareaRef.value) {
+    textareaRef.value.style.height = "auto";
+    textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
+  }
+}
+
+watch(
+  () => props.modelValue,
+  () => {
+    autoResizeTextarea();
+  },
+  { immediate: true }
+);
 </script>
+
+<template>
+  <div class="input_wrapper">
+    <label v-if="label" class="input_label">{{ label }}</label>
+    <textarea
+      v-if="type !== 'number'"
+      ref="textareaRef"
+      :value="modelValue"
+      @input="handleInput"
+      class="input_field"
+      :placeholder="placeholder"
+      :rows="rows"
+      :cols="cols"
+    ></textarea>
+    <input
+      v-else
+      type="text"
+      :value="modelValue"
+      @input="handleInput"
+      class="input_field"
+      :placeholder="placeholder"
+    />
+    <span v-if="error" class="error_message">{{ error }}</span>
+  </div>
+</template>
 
 <style scoped lang="scss">
 @use "../../assets/scss/var.scss" as *;
@@ -91,11 +111,17 @@ const handleInput = (event) => {
   font-size: 14px;
   border-radius: 8px;
   border: none;
-  resize: vertical;
   font-family: inherit;
   transition: border-color 0.2s;
   background-color: $light-color;
   line-height: 1;
   resize: none;
+  overflow: hidden;
+}
+
+.error_message {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
 }
 </style>
