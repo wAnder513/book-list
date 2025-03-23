@@ -10,6 +10,10 @@ const isModalOpen = ref(false);
 function openModal() {
   isModalOpen.value = true;
 }
+
+function closeModal() {
+  isModalOpen.value = false;
+}
 </script>
 
 <template>
@@ -31,7 +35,7 @@ function openModal() {
       </template>
 
       <template #body>
-        <AddBookForm />
+        <AddBookForm @closeModal="closeModal" />
       </template>
     </TheModal>
   </div>

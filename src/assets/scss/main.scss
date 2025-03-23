@@ -20,3 +20,31 @@ body {
 button {
   cursor: pointer;
 }
+
+.button_add {
+  .button_add-img {
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/add-button-default.svg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  &:hover,
+  &:focus {
+    .button_add-img {
+      background-image: url("../img/add-button-active.svg");
+    }
+  }
+}
+
+.error_message {
+  color: $red-color;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+
+
+

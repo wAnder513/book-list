@@ -29,10 +29,10 @@ defineEmits(["update:modelValue"]);
 
 .checkbox-wrapper {
   display: flex;
-  align-items: center;
   cursor: pointer;
   user-select: none;
   position: relative;
+  margin-bottom: 16px;
 }
 
 .checkbox-input {

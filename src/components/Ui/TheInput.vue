@@ -2,20 +2,30 @@
   <div class="input_wrapper">
     <label v-if="label" class="input_label">{{ label }}</label>
     <textarea
+      v-if="type !== 'number'"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      @input="handleInput"
       class="input_field"
       :placeholder="placeholder"
       :rows="rows"
       :cols="cols"
     ></textarea>
+    <input
+      v-else
+      type="text"
+      :value="modelValue"
+      @input="handleInput"
+      class="input_field"
+      :placeholder="placeholder"
+    />
+    <span v-if="error" class="error_message">{{ error }}</span>
   </div>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: "",
   },
   label: {
@@ -34,9 +44,30 @@ defineProps({
     type: Number,
     default: 50,
   },
+  error: {
+    type: String,
+    default: "",
+  },
+  type: {
+    type: String,
+    default: "text",
+  },
 });
 
-defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue"]);
+
+const handleInput = (event) => {
+  let value = event.target.value;
+
+  // Если тип поля — число, проверяем, что введено число
+  if (props.type === "number") {
+    if (!/^\d*$/.test(value)) {
+      return; // Игнорируем ввод, если это не число
+    }
+  }
+
+  emit("update:modelValue", value);
+};
 </script>
 
 <style scoped lang="scss">
