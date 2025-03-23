@@ -117,4 +117,14 @@ const closeModal = () => {
 .modal_leave-to {
   opacity: 0;
 }
+
+@media (max-width: 480px) {
+  .modal_content {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    max-width: none;
+    padding: 28px;
+  }
+}
 </style>

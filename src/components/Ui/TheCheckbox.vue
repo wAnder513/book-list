@@ -48,7 +48,7 @@ defineEmits(["update:modelValue"]);
   display: inline-block;
   width: 18px;
   height: 18px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid $gray-color;
   border-radius: 3px;
   margin-right: 8px;
   transition: all 0.2s ease;

@@ -168,4 +168,15 @@ function submitForm() {
     font-size: 14px;
   }
 }
+
+@media (max-width: 480px) {
+  .form_submit {
+    justify-content: center;
+
+    .form_submit-button {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+}
 </style>

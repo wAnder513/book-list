@@ -45,6 +45,11 @@ button {
   margin-top: 4px;
 }
 
+@media (max-width: 480px) {
+  .container {
+    padding: 0 28px;
+  }
+}
 
 
 

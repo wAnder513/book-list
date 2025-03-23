@@ -117,11 +117,10 @@ watch(
   line-height: 1;
   resize: none;
   overflow: hidden;
-}
 
-.error_message {
-  color: red;
-  font-size: 12px;
-  margin-top: 4px;
+  &:hover,
+  &:focus {
+    outline: 2px solid $green-color;
+  }
 }
 </style>

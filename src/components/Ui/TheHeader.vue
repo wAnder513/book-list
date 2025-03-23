@@ -132,6 +132,7 @@ function setSearchBook(event) {
 
     .header_books-counter {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 8px;
 
@@ -173,6 +174,24 @@ function setSearchBook(event) {
         .header_books-img {
           background-image: url("../../assets/img/add-button-active.svg");
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    .header_books {
+      .header_books-add-book {
+        justify-content: center;
+        position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 28px;
+        right: 28px;
+        text-align: center;
+        bottom: 16px;
+        width: calc(100% - 56px);
       }
     }
   }
