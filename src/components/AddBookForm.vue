@@ -49,8 +49,13 @@ function validateForm() {
     if (field.modelValue.trim() === "") {
       field.error = "Обязательное поле";
       isValid = false;
-    } else if (field.type === "number" && isNaN(field.modelValue)) {
-      field.error = "Поле должно быть числом";
+    } else if (
+      field.type === "number" &&
+      (isNaN(field.modelValue) || field.modelValue > new Date().getFullYear())
+    ) {
+      field.error = isNaN(field.modelValue)
+        ? "Поле должно быть числом"
+        : "Книга из будущего?:)";
       isValid = false;
     } else {
       field.error = "";
